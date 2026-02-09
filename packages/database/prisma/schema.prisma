@@ -73,10 +73,11 @@ model OrderItem {
 }
 
 model Booking {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  startTime DateTime
-  endTime   DateTime
-  status    String   @default("PENDING")
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  serviceType String
+  date        DateTime
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
 }

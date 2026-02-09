@@ -7,6 +7,7 @@ import { ProfileModule } from './profile/profile.module';
 
 import { AdminController } from './admin/admin.controller';
 import { ProductsModule } from './products/products.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ProductsModule } from './products/products.module';
     AuthModule,
     ProfileModule,
     ProductsModule,
+    BookingsModule,
   ],
   controllers: [AdminController],
   providers: [],

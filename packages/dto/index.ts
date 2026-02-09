@@ -37,4 +37,5 @@ export class UpdateProfileDto {
 }
 
 export * from './product.dto';
+export * from './booking.dto';
 
