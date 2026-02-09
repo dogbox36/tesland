@@ -11,13 +11,13 @@ export class BookingsController {
     @Post()
     @UseGuards(JwtAuthGuard)
     create(@Request() req, @Body() createBookingDto: CreateBookingDto) {
-        return this.bookingsService.create(req.user.id, createBookingDto);
+        return this.bookingsService.create(req.user.userId, createBookingDto);
     }
 
     @Get('my')
     @UseGuards(JwtAuthGuard)
     findMyBookings(@Request() req) {
-        return this.bookingsService.findMyBookings(req.user.id);
+        return this.bookingsService.findMyBookings(req.user.userId);
     }
 
     @Get()

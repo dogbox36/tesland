@@ -46,6 +46,8 @@ export default function Home() {
                     <h1 className="text-xl font-bold tracking-widest uppercase text-red-600">TESLAND</h1>
                     <div className="hidden md:flex gap-6">
                         <a href="/shop" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">SHOP</a>
+                        <a href="/booking" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">SERVICE</a>
+                        <a href="/profile" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">PROFILE</a>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">

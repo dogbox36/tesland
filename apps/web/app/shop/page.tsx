@@ -48,6 +48,7 @@ export default function ShopPage() {
                     </h1>
                     <div className="hidden md:flex gap-6">
                         <a href="/shop" className="text-sm font-medium text-white border-b-2 border-red-600">SHOP</a>
+                        <a href="/booking" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SERVICE</a>
                         <a href="/profile" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">PROFILE</a>
                     </div>
                 </div>

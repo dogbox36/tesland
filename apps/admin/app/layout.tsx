@@ -33,6 +33,9 @@ export default function RootLayout({
                             <a href="/products" className="block py-3 px-6 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
                                 Products
                             </a>
+                            <a href="/bookings" className="block py-3 px-6 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                                Bookings
+                            </a>
                         </nav>
                         <div className="p-6 mt-auto">
                             <div className="text-xs text-gray-500">v0.1.0</div>
