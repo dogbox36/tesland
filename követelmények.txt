@@ -1,0 +1,279 @@
+MVP PROMPT (NO DOCKER + GITHUB STEP-BY-STEP)
+
+SZEREP / CÉL
+Te egy senior full-stack product engineer + architect csapat vagy (PM + UX + FE + BE + Mobile + DevOps). A feladatod a Tesland számára egy új, profi, modern rendszer megtervezése és MVP-ig történő felépítése:
+
+Weboldal (marketing + tartalom + webshop + szerviz foglalás + árajánlatkérés)
+
+Backend/API (egységes üzleti logika, auth, fizetés, foglalás, értesítések, admin)
+
+Közös adatbázis (minden komponens ugyanazt használja)
+
+Mobil app iOS + Android (szerviz foglalás naptárral, árajánlat, webshop rendelés, profil, értesítések)
+
+KÖTELEZŐ KORLÁTOZÁSOK
+1) Docker TILOS
+
+NE használj Docker-t semmilyen formában (Dockerfile, docker-compose, container build, stb.).
+
+Fejlesztéshez és futtatáshoz natív környezetet adj:
+
+Node.js + package manager (pnpm ajánlott)
+
+PostgreSQL natívan telepítve (vagy menedzselt szolgáltatás)
+
+Redis natívan telepítve (ha használod)
+
+Adj részletes Local Dev Setup dokumentációt minden OS-re fókuszálva (Windows/macOS), és legyen “copy-paste ready”.
+
+2) GitHub: lépésenkénti nyomkövetés (nem opcionális)
+
+A teljes fejlesztés GitHub repo-ban, lépésenként legyen rögzítve. Kötelező:
+
+Minden érdemi változás külön commit (ne 1 nagy “final” commit)
+
+Kötelező branch/PR munkafolyamat:
+
+main = stabil
+
+develop = integráció
+
+feature branchek: feat/..., fix/..., chore/...
+
+minden feature PR-on keresztül menjen develop-ba
+
+Kötelező commit convention:
+
+feat: ..., fix: ..., chore: ..., docs: ..., test: ..., refactor: ...
+
+Minden PR-hoz:
+
+leírás: mi változott, hogyan tesztelted, screenshot ha UI
+
+checklista: lint/test/build futott
+
+Minden mérföldkőnél Git tag:
+
+v0.1-spec, v0.2-auth, v0.3-shop, v0.4-booking, v0.5-mobile, v1.0-mvp
+
+Kötelező CHANGELOG.md (Keep a Changelog stílus) + verziózás (SemVer)
+
+KÖTELEZŐ REFERENCIA / INSPIRÁCIÓ
+
+Vegyél példát a jelenlegi Tesland weboldal információ-architektúrájáról, menüjéről, kategóriáiról és szolgáltatás-kommunikációjáról, DE az új verzió legyen:
+
+gyorsabb, modernebb UI/UX
+
+jobb SEO + jobb konverzió
+
+átláthatóbb webshop és foglalás
+
+profi admin felület
+
+mobil-first és app-first
+
+KIMENETEK – MIT KÉREK TŐLED
+
+A munkát dokumentáltan és lépésenként add vissza:
+
+A) Discovery + Spec (rövid, de precíz)
+
+Oldalstruktúra (Sitemap) + fő user flow-k (vásárlás, foglalás, árajánlat)
+
+Funkcionális követelmények (Web / App / Admin / API)
+
+Nem funkcionális követelmények (teljesítmény, skálázás, biztonság, GDPR)
+
+Javasolt tech stack + indoklás
+
+GitHub workflow terv (branching, PR policy, commit szabályok, release tags)
+
+B) Architektúra
+
+Monorepo struktúra (web + api + mobile + shared)
+
+API szerződés (OpenAPI) alap váz + fő endpointok listája
+
+Adatbázis séma (PostgreSQL) – entitások + kapcsolatok
+
+Booking motor logika (szabad idősávok, kapacitás, szabályok)
+
+Fizetési integráció megközelítés (legalább 2 opció: nemzetközi + HU fókusz)
+
+Értesítési rendszer (email + push + opcionálisan SMS)
+
+Jogosultságok (User / Admin / Service Manager)
+
+C) MVP Build Plan (konkrét backlog + commit terv)
+
+Fázisokra bontva, mérhető acceptance criteria-val, és minden fázishoz:
+
+javasolt branch nevek
+
+PR bontás (kisebb PR-ok)
+
+commit-okra bontott lépések (high-level)
+
+Kötelező fázisok:
+
+Phase 0: repo + lint + CI + env + DB migráció (Docker nélkül)
+
+Phase 1: Auth + profil + alap CMS tartalom
+
+Phase 2: Webshop MVP (termék, kosár, checkout, rendelés)
+
+Phase 3: Szerviz foglalás (naptár, idősávok, admin felület)
+
+Phase 4: Árajánlatkérés (web+app, státuszok, admin kezelés)
+
+Phase 5: Mobil app MVP (booking + quote + profil + push)
+
+Phase 6: Hardening (security, rate limit, logs, monitoring, tests)
+
+D) Implementáció (MVP szint)
+
+Építsd fel a projektet a javasolt stackkel, minimum ezeket szállítva:
+
+Web (prod-ready alap)
+
+API (auth, webshop core, booking core, quote core)
+
+Admin felület (rendelések, foglalások, árajánlatok, termékek)
+
+Mobile app (booking + quote + profil + értesítések)
+
+Migrations + seed
+
+Logging + error handling
+
+Alap tesztek (unit + integration a kritikus modulokra)
+
+FONTOS: Docker helyett adj:
+
+docs/local-setup.md (Windows + macOS)
+
+scripts/ mappában natív script-ek:
+
+DB init, migrate, seed
+
+dev run (web/api/mobile)
+
+.env.example + részletes env magyarázat
+
+TECH STACK ELVÁRÁS (javasolj, de legyen modern és stabil)
+
+Preferált irány:
+
+Web: Next.js (App Router) + TypeScript + Tailwind + SEO
+
+API: NestJS vagy Fastify/Express TypeScript + OpenAPI
+
+DB: PostgreSQL + Prisma (vagy TypeORM)
+
+Cache/Queue: Redis (értesítések, booking lock, job queue)
+
+File storage: S3 kompatibilis (képek, csatolmányok)
+
+Mobile: React Native (Expo) vagy Flutter (indokold)
+
+Auth: JWT + refresh token + optional OAuth later
+
+Payments: 2 integráció (pl. Stripe + magyar szolgáltató), absztrakcióval
+
+Notifications: email + push (FCM/APNs)
+
+CI/CD: GitHub Actions (lint/test/build)
+
+BOOKING MOTOR – KÖTELEZŐ LOGIKA
+
+Szolgáltatás = időtartam + buffer idők
+
+Kapacitás: egyszerre hány autót tudnak fogadni
+
+Nyitvatartás + kivételek
+
+Admin: blocked slots, extra idősávok
+
+Ütközés kezelés: transaction + lock (ne legyen duplafoglalás)
+
+Értesítés: email + push
+
+ADATBÁZIS – KÖZÖS, EGYETLEN IGAZSÁGFORRÁS
+
+Minden ebből dolgozik: web, app, admin, API.
+
+Minimál entitások:
+
+users, user_profiles, vehicles
+
+products, product_variants, categories, inventory
+
+carts, orders, order_items, payments
+
+service_types, availability_rules, time_slots, bookings
+
+quote_requests, quote_messages, attachments
+
+notifications, audit_logs
+
+content_pages, blog_posts
+
+MINŐSÉGI KÖVETELMÉNYEK
+
+GDPR alapok
+
+Security: rate limit, input validation, OWASP alapok, file upload védelem
+
+Observability: request id, strukturált logok
+
+Performance: SSR/SSG ahol kell, képek optimalizálása
+
+Tesztek: booking ütközés + payment callback + auth refresh
+
+FEJLESZTÉSI MÓDSZER (KÖTELEZŐ)
+
+Először A+B (spec+arch), utána C (backlog), utána D (kód).
+
+Minden modulnál add meg:
+
+Definition of Done
+
+edge case-ek
+
+teszt scenario-k
+
+Minden al-lépést commitolj GitHubra, és a PR leírásban hivatkozz:
+
+mi lett hozzáadva
+
+hogyan futtatható lokálisan Docker nélkül
+
+hogyan tesztelted
+
+VÉGSŐ DELIVERABLE
+
+GitHub repo-ban legyen:
+
+Repo struktúra + futtatási leírás
+
+.env.example
+
+docs/local-setup.md (Docker nélküli setup)
+
+scripts/ (init/migrate/seed/dev)
+
+DB migrations + seed
+
+OpenAPI doc
+
+MVP end-to-end flow:
+
+regisztráció → profil → autó felvétele
+
+szerviz időpont foglalás szabad slotból → visszaigazolás
+
+árajánlatkérés képpel → admin kezeli → user értesítést kap
+
+webshop kosár → checkout → order létrejön → státusz követhető
+
+INDÍTÁS MOST: kezdd a Discovery/Spec résszel, majd Architektúra, és csak utána kód.

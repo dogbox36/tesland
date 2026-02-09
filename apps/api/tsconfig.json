@@ -1,0 +1,36 @@
+{
+    "extends": "../../packages/config/tsconfig.base.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es2021",
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "incremental": true,
+        "skipLibCheck": true,
+        "strictNullChecks": false,
+        "noImplicitAny": false,
+        "strictBindCallApply": false,
+        "forceConsistentCasingInFileNames": false,
+        "noFallthroughCasesInSwitch": false,
+        "paths": {
+            "@tesland/database": [
+                "../../packages/database/index.ts"
+            ],
+            "@tesland/dto": [
+                "../../packages/dto/index.ts"
+            ],
+            "@tesland/config": [
+                "../../packages/config"
+            ]
+        }
+    },
+    "exclude": [
+        "**/*.spec.ts",
+        "**/*.test.ts"
+    ]
+}

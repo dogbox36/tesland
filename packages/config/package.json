@@ -1,0 +1,12 @@
+{
+    "name": "@tesland/config",
+    "version": "0.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "files": [
+        "tsconfig.base.json"
+    ],
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
