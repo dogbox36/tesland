@@ -31,28 +31,76 @@ export default function Home() {
         fetchUser();
     }, [router]);
 
-    if (loading) return <div className="p-8 text-center">Loading...</div>;
+    if (loading) return (
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
+        </div>
+    );
+
     if (!user) return null;
 
     return (
-        <main className="flex min-h-screen flex-col items-center p-24">
-            <h1 className="text-4xl font-bold mb-8">Tesland Dashboard</h1>
+        <div className="min-h-screen bg-black text-white font-sans selection:bg-red-900 selection:text-white">
+            <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
+                <div className="flex items-center gap-8">
+                    <h1 className="text-xl font-bold tracking-widest uppercase text-red-600">TESLAND</h1>
+                    <div className="hidden md:flex gap-6">
+                        <a href="/shop" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">SHOP</a>
+                    </div>
+                </div>
+                <div className="flex items-center gap-4">
+                    <span className="text-sm text-gray-400 hidden sm:block">{user.email}</span>
+                    <button
+                        onClick={() => {
+                            localStorage.removeItem('token');
+                            router.push('/auth/login');
+                        }}
+                        className="text-sm font-medium text-white hover:text-red-500 transition-colors"
+                    >
+                        LOGOUT
+                    </button>
+                </div>
+            </nav>
 
-            <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md text-center">
-                <h2 className="text-2xl font-semibold mb-4">Welcome, {user.name || user.email}!</h2>
-                <p className="text-gray-600 mb-2">Email: {user.email}</p>
-                <p className="text-gray-600 mb-6">Role: {user.role}</p>
+            <main className="flex min-h-screen flex-col items-center justify-center p-6 relative overflow-hidden">
+                {/* Background Gradient Blob */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
 
-                <button
-                    onClick={() => {
-                        localStorage.removeItem('token');
-                        router.push('/auth/login');
-                    }}
-                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                >
-                    Logout
-                </button>
-            </div>
-        </main>
+                <div className="z-10 w-full max-w-md space-y-8 text-center">
+                    <h1 className="text-5xl font-bold tracking-tighter mb-2">Welcome Back.</h1>
+                    <p className="text-xl text-gray-400 font-light">Ready to experience the future?</p>
+
+                    <div className="grid grid-cols-1 gap-4 mt-8">
+                        <button
+                            onClick={() => router.push('/profile')}
+                            className="group relative w-full bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02]"
+                        >
+                            <div className="flex items-center justify-between">
+                                <div className="text-left">
+                                    <h3 className="text-lg font-semibold text-white group-hover:text-red-500 transition-colors">Profile Settings</h3>
+                                    <p className="text-sm text-gray-500">Manage your personal details</p>
+                                </div>
+                                <span className="text-2xl text-gray-600 group-hover:text-white transition-colors">→</span>
+                            </div>
+                        </button>
+
+                        {user.role === 'ADMIN' && (
+                            <a
+                                href="http://localhost:4001"
+                                className="group relative w-full bg-gradient-to-r from-red-900/20 to-black hover:from-red-900/40 backdrop-blur-sm border border-red-900/30 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] block"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="text-left">
+                                        <h3 className="text-lg font-semibold text-red-500">Admin Console</h3>
+                                        <p className="text-sm text-gray-500">Manage users and products</p>
+                                    </div>
+                                    <span className="text-2xl text-red-800 group-hover:text-red-500 transition-colors">→</span>
+                                </div>
+                            </a>
+                        )}
+                    </div>
+                </div>
+            </main>
+        </div>
     );
 }

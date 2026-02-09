@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength, IsOptional } from 'class-validator';
 
 export class RegisterDto {
     @IsEmail()
@@ -21,3 +21,20 @@ export class LoginDto {
     @IsNotEmpty()
     password: string;
 }
+
+export class UpdateProfileDto {
+    @IsString()
+    @IsOptional()
+    name?: string;
+
+    @IsString()
+    @IsOptional()
+    phone?: string;
+
+    @IsString()
+    @IsOptional()
+    address?: string;
+}
+
+export * from './product.dto';
+
