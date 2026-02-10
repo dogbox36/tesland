@@ -20,6 +20,15 @@ export class CreateProductDto {
     @IsString()
     @IsOptional()
     imageUrl?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    discountPrice?: number;
+
+    @IsOptional()
+    @IsString()
+    discountExpiresAt?: string;
 }
 
 export class UpdateProductDto {
@@ -44,4 +53,13 @@ export class UpdateProductDto {
     @IsString()
     @IsOptional()
     imageUrl?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    discountPrice?: number | null;
+
+    @IsOptional()
+    @IsString()
+    discountExpiresAt?: string | null;
 }

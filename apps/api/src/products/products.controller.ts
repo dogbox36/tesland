@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from '@tesland/dto';
 import { RolesGuard, Roles } from '../auth/guards/roles.guard';
@@ -37,5 +37,12 @@ export class ProductsController {
     @Roles('ADMIN')
     remove(@Param('id') id: string) {
         return this.productsService.remove(id);
+    }
+
+    @Get('identify/smart')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('ADMIN')
+    identify(@Query('q') query: string) {
+        return this.productsService.identify(query);
     }
 }

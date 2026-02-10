@@ -38,4 +38,6 @@ export class UpdateProfileDto {
 
 export * from './product.dto';
 export * from './booking.dto';
+export * from './quote.dto';
+export * from './order.dto';
 

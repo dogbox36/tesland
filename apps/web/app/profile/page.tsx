@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 
 export default function ProfilePage() {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -11,6 +12,7 @@ export default function ProfilePage() {
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState('');
     const router = useRouter();
+    const { items } = useCart();
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -53,13 +55,35 @@ export default function ProfilePage() {
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-red-900 selection:text-white">
             <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
-                <h1 className="text-xl font-bold tracking-widest uppercase">TESLAND</h1>
-                <button
-                    onClick={() => router.push('/')}
-                    className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                >
-                    Dashboard
-                </button>
+                <div className="flex items-center gap-8">
+                    <h1
+                        onClick={() => router.push('/')}
+                        className="text-xl font-bold tracking-widest uppercase text-red-600 cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        TESLAND
+                    </h1>
+                    <div className="hidden md:flex gap-6">
+                        <a href="/shop" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SHOP</a>
+                        <a href="/booking" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SERVICE</a>
+                        <a href="/quote" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">GET QUOTE</a>
+                        <a href="/profile" className="text-sm font-medium text-white border-b-2 border-red-600">PROFILE</a>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={() => router.push('/cart')}
+                        className="text-sm font-medium text-white hover:text-red-500 transition-colors"
+                    >
+                        CART ({items.reduce((acc, item) => acc + item.quantity, 0)})
+                    </button>
+                    <button
+                        onClick={() => router.push('/')}
+                        className="text-sm font-medium text-gray-300 hover:text-white transition-colors md:hidden"
+                    >
+                        Dashboard
+                    </button>
+                </div>
             </nav>
 
             <main className="pt-32 px-6 pb-12 max-w-4xl mx-auto">

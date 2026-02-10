@@ -43,10 +43,13 @@ enum Role {
 model Product {
   id          String      @id @default(uuid())
   name        String
+  partNumber  String?     // Tesla part number (e.g., 1044321-00-G)
   description String?
   price       Int
   stock       Int
   imageUrl    String?
+  discountPrice Int?
+  discountExpiresAt DateTime?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   orderItems  OrderItem[]
@@ -78,6 +81,18 @@ model Booking {
   user        User     @relation(fields: [userId], references: [id])
   serviceType String
   date        DateTime
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+}
+
+model Quote {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  phone       String?
+  model       String
+  serviceType String
+  message     String
   status      String   @default("PENDING")
   createdAt   DateTime @default(now())
 }

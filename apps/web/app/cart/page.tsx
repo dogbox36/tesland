@@ -2,20 +2,40 @@
 
 import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
+import { api } from '@/lib/api';
 
 export default function CartPage() {
     const { items, removeFromCart, clearCart, total } = useCart();
     const router = useRouter();
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         if (items.length === 0) return;
 
-        // Mock checkout process
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Please login to checkout');
+            router.push('/login');
+            return;
+        }
+
         const confirm = window.confirm(`Total amount: $${total}\n\nProceed to payment?`);
-        if (confirm) {
-            alert('Order placed successfully! (This is a simplified MVP checkout)');
+        if (!confirm) return;
+
+        try {
+            await api.post('/orders', {
+                items: items.map(item => ({
+                    productId: item.id,
+                    quantity: item.quantity
+                }))
+            });
+
+            alert('Order placed successfully!');
             clearCart();
-            router.push('/');
+            router.push('/profile'); // Redirect to profile to see orders
+        } catch (err: any) {
+            console.error('Checkout failed', err);
+            const message = err.response?.data?.message || 'Failed to place order';
+            alert(`Error: ${message}`);
         }
     };
 
@@ -32,6 +52,7 @@ export default function CartPage() {
                     <div className="hidden md:flex gap-6">
                         <a href="/shop" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SHOP</a>
                         <a href="/booking" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SERVICE</a>
+                        <a href="/quote" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">GET QUOTE</a>
                         <a href="/profile" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">PROFILE</a>
                     </div>
                 </div>

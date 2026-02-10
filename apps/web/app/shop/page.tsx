@@ -13,6 +13,8 @@ interface Product {
     price: number;
     imageUrl: string;
     stock: number;
+    discountPrice?: number;
+    discountExpiresAt?: string;
 }
 
 export default function ShopPage() {
@@ -49,6 +51,7 @@ export default function ShopPage() {
                     <div className="hidden md:flex gap-6">
                         <a href="/shop" className="text-sm font-medium text-white border-b-2 border-red-600">SHOP</a>
                         <a href="/booking" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SERVICE</a>
+                        <a href="/quote" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">GET QUOTE</a>
                         <a href="/profile" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">PROFILE</a>
                     </div>
                 </div>
@@ -74,42 +77,7 @@ export default function ShopPage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {products.map((product) => (
-                            <div key={product.id} className="group relative bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-red-900/50 transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/10">
-                                <div className="aspect-video w-full bg-gray-800 relative overflow-hidden">
-                                    {product.imageUrl ? (
-                                        <img
-                                            src={product.imageUrl}
-                                            alt={product.name}
-                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-gray-700 bg-gray-900">
-                                            No Image
-                                        </div>
-                                    )}
-                                    {product.stock === 0 && (
-                                        <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                                            OUT OF STOCK
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="p-6">
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h3 className="text-xl font-semibold text-white group-hover:text-red-500 transition-colors">{product.name}</h3>
-                                        <span className="text-lg font-bold text-white">${product.price}</span>
-                                    </div>
-                                    <p className="text-gray-400 text-sm mb-6 line-clamp-2">{product.description}</p>
-
-                                    <button
-                                        disabled={product.stock === 0}
-                                        onClick={() => addToCart(product)}
-                                        className="w-full bg-white text-black font-bold py-3 px-4 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider text-sm active:scale-95 duration-100"
-                                    >
-                                        {product.stock === 0 ? 'Unavailable' : 'Add to Cart'}
-                                    </button>
-                                </div>
-                            </div>
+                            <ProductCard key={product.id} product={product} addToCart={addToCart} />
                         ))}
                     </div>
                 )}
@@ -120,6 +88,72 @@ export default function ShopPage() {
                     </div>
                 )}
             </main>
+        </div>
+    );
+}
+
+function ProductCard({ product, addToCart }: { product: Product, addToCart: (p: Product) => void }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    return (
+        <div className="group relative bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-red-900/50 transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/10">
+            <div className="aspect-video w-full bg-gray-800 relative overflow-hidden">
+                {product.imageUrl ? (
+                    <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-700 bg-gray-900">
+                        No Image
+                    </div>
+                )}
+                {product.stock === 0 && (
+                    <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                        OUT OF STOCK
+                    </div>
+                )}
+            </div>
+
+            <div className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-semibold text-white group-hover:text-red-500 transition-colors">{product.name}</h3>
+                    <div className="text-right">
+                        {product.discountPrice && (!product.discountExpiresAt || !isNaN(new Date(product.discountExpiresAt).getTime()) && new Date(product.discountExpiresAt) > new Date()) ? (
+                            <>
+                                <span className="block text-sm line-through text-gray-500">${product.price}</span>
+                                <span className="text-xl font-bold text-red-500">${product.discountPrice}</span>
+                            </>
+                        ) : (
+                            <span className="text-lg font-bold text-white">${product.price}</span>
+                        )}
+                    </div>
+                </div>
+
+                <div
+                    className={`relative mb-6 cursor-pointer ${isExpanded ? '' : 'line-clamp-2'}`}
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    title={isExpanded ? "Click to collapse" : "Click to read more"}
+                >
+                    <p className="text-gray-400 text-sm transition-all duration-300">
+                        {product.description}
+                    </p>
+                    {!isExpanded && product.description && product.description.length > 100 && (
+                        <div className="absolute bottom-0 right-0 bg-gradient-to-l from-gray-900/90 to-transparent pl-4 text-xs text-red-500 font-bold hover:underline">
+                            Read more
+                        </div>
+                    )}
+                </div>
+
+                <button
+                    disabled={product.stock === 0}
+                    onClick={() => addToCart(product)}
+                    className="w-full bg-white text-black font-bold py-3 px-4 rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider text-sm active:scale-95 duration-100"
+                >
+                    {product.stock === 0 ? 'Unavailable' : 'Add to Cart'}
+                </button>
+            </div>
         </div>
     );
 }

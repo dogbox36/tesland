@@ -50,10 +50,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
                         : item
                 );
             }
+            let effectivePrice = product.price;
+            if (product.discountPrice && (!product.discountExpiresAt || new Date(product.discountExpiresAt) > new Date())) {
+                effectivePrice = product.discountPrice;
+            }
+
             return [...prev, {
                 id: product.id,
                 name: product.name,
-                price: product.price,
+                price: effectivePrice,
                 imageUrl: product.imageUrl,
                 quantity: 1
             }];

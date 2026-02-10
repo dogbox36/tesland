@@ -65,6 +65,7 @@ export default function BookingPage() {
                     <div className="hidden md:flex gap-6">
                         <a href="/shop" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">SHOP</a>
                         <a href="/booking" className="text-sm font-medium text-white border-b-2 border-red-600">SERVICE</a>
+                        <a href="/quote" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">GET QUOTE</a>
                         <a href="/profile" className="text-sm font-medium text-gray-400 hover:text-white transition-colors">PROFILE</a>
                     </div>
                 </div>
@@ -136,8 +137,8 @@ export default function BookingPage() {
                                         </div>
                                         <div>
                                             <span className={`px-3 py-1 rounded text-xs font-bold uppercase ${booking.status === 'PENDING' ? 'bg-yellow-900/50 text-yellow-500' :
-                                                    booking.status === 'CONFIRMED' ? 'bg-green-900/50 text-green-500' :
-                                                        'bg-red-900/50 text-red-500'
+                                                booking.status === 'CONFIRMED' ? 'bg-green-900/50 text-green-500' :
+                                                    'bg-red-900/50 text-red-500'
                                                 }`}>
                                                 {booking.status}
                                             </span>
